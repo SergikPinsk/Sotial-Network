@@ -1,0 +1,16 @@
+.content {
+    grid-area: c;
+    background-color: yellow;
+}
+
+.item {
+    color: rgb(146, 88, 88);
+    font-size: 19px;
+}
+
+.imgPack  img {
+    width: 350px;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin-left: 30px;
+}

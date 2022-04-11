@@ -1,0 +1,12 @@
+.nav {
+    grid-area: n;
+    background-color: rgb(205, 248, 196);
+}
+.item  {
+    font-size: 23px;
+    color: rgb(124, 143, 95);
+    padding: 3px;
+    border: 1px solid wheat;
+    border-radius: 6px;
+    margin: 5px;
+}
