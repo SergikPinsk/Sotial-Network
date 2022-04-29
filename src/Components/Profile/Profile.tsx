@@ -1,6 +1,7 @@
 import React from "react";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import MyPosts from "./MyPost/MyPost";
+import {DispatchTypes} from "../../redux/state";
 
 type DataPropsType = {
     id: number
@@ -10,9 +11,8 @@ type DataPropsType = {
 
 type ProfilePropsType = {
     dataProfile: Array<DataPropsType>
-    newPost: () => void
+    dispatch: (action: DispatchTypes)=>void
     newValueText: string
-    functionTextValue: (text: string) => void
 }
 export const Profile = (props: ProfilePropsType) => {
 
@@ -22,9 +22,8 @@ export const Profile = (props: ProfilePropsType) => {
             <ProfileInfo/>
             <MyPosts
                 post={props.dataProfile}
-                newPost1={props.newPost}
+                dispatch={props.dispatch}
                 newValueText={props.newValueText}
-                functionTextValue={props.functionTextValue}
             />
         </div>
     )

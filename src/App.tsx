@@ -10,11 +10,13 @@ import {News} from "./Components/News/News";
 import {Music} from "./Components/Music/Music";
 import {Dialogs} from "./Components/Dialogs/Dialogs";
 import {Profile} from "./Components/Profile/Profile";
-import {newTextValueBusines, state} from "./redux/state";
-import {addPost} from "./redux/state";
+import {StorePropsType} from "./redux/state";
 
 
-function App() {
+type PropsType = {
+    store:StorePropsType
+}
+function App(props: PropsType) {
 
     return (
         <BrowserRouter>
@@ -24,15 +26,14 @@ function App() {
                 <div className='app-wrapper-content'>
                     <Routes>
                         <Route path='/dialogs/*' element={<Dialogs
-                            messageData={state.sms.messageData}
-                            dialogsData={state.sms.dialogsData}
+                            messageData={props.store.getState().sms.messageData}
+                            dialogsData={props.store.getState().sms.dialogsData}
 
                         />}></Route>
                         <Route path='/profile' element={<Profile
-                            newValueText={state.post.newPostText}
-                            dataProfile={state.post.postData}
-                            newPost={addPost}
-                            functionTextValue={newTextValueBusines}
+                            newValueText={props.store.getState().post.newPostText}
+                            dataProfile={props.store.getState().post.postData}
+                            dispatch={props.store.dispatch.bind(props.store)}
                         />}>
 
                         </Route>

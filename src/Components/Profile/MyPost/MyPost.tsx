@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from "react";
 import s from './MyPost.module.css'
 import Post from "./Post/Post";
 import {findAllByDisplayValue} from "@testing-library/react";
-import {state} from "../../../redux/state";
+import {addPostAC, changePostAC, DispatchTypes, store} from "../../../redux/state";
 
 type PropsPost = {
     id: number
@@ -12,9 +12,8 @@ type PropsPost = {
 
 type PropsPostDate = {
     post: Array<PropsPost>
-    newPost1: () => void
+    dispatch: (action: DispatchTypes) => void
     newValueText: string
-    functionTextValue: (text: string) => void
 }
 
 const MyPosts = (props: PropsPostDate) => {
@@ -22,7 +21,9 @@ const MyPosts = (props: PropsPostDate) => {
     let postElement = props.post.map(p => <Post key={p.id} message={p.message} like={p.like}/>)
 
     const onChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        props.functionTextValue(event.currentTarget.value)
+        let change = event.currentTarget.value
+        props.dispatch(changePostAC(change))
+
     }
 
     return (
@@ -34,7 +35,7 @@ const MyPosts = (props: PropsPostDate) => {
                     onChange={onChangeHandler}></textarea>
             </div>
             <div>
-                <button onClick={props.newPost1}>Add Post</button>
+                <button onClick={()=>props.dispatch(addPostAC())}>Add Post</button>
             </div>
             <div className={s.posts}>
                 {postElement}

@@ -23,7 +23,7 @@ export const Dialogs = (props: PropsMessageData) => {
 
     let dialogElements = props.dialogsData.map(dialog => <DialogItem name={dialog.name} id={dialog.id}/>);
 
-    let messegesElement = props.messageData.map(m => <Message message={m.message}/>);
+    let messegesElement = props.messageData.map(m => <Message key={m.id} message={m.message}/>);
  
 
     return (
