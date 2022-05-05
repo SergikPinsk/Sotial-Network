@@ -4,7 +4,7 @@ import MyPosts from "./MyPost/MyPost";
 import {DispatchTypes} from "../../redux/state";
 
 type DataPropsType = {
-    id: number
+    id: string
     message: string
     like: number
 }

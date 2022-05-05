@@ -2,10 +2,11 @@ import React, {ChangeEvent, useState} from "react";
 import s from './MyPost.module.css'
 import Post from "./Post/Post";
 import {findAllByDisplayValue} from "@testing-library/react";
-import {addPostAC, changePostAC, DispatchTypes, store} from "../../../redux/state";
+import {DispatchTypes, store} from "../../../redux/state";
+import {addPostAC, changePostAC} from "../../../redux/post-reducer";
 
 type PropsPost = {
-    id: number
+    id: string
     message: string
     like: number
 }

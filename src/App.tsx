@@ -26,6 +26,8 @@ function App(props: PropsType) {
                 <div className='app-wrapper-content'>
                     <Routes>
                         <Route path='/dialogs/*' element={<Dialogs
+                            dispatch={props.store.dispatch.bind(props.store)}
+                            NewMessageText={props.store.getState().sms.NewMessageText}
                             messageData={props.store.getState().sms.messageData}
                             dialogsData={props.store.getState().sms.dialogsData}
 

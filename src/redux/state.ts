@@ -1,35 +1,27 @@
-
-export const addPostAC =():AddTypeAction => {
-    return {
-        type: "ADD-POST"
-    }
-}
-export const changePostAC =(change:string):NewTextAction => {
-    return {
-        type: "NEW-TEXT-VALUE-BUSINES",
-        text: change
-    }
-}
+import {v1} from "uuid";
+import PostReducer, {addPostAC, changePostAC} from "./post-reducer";
+import {ChangeStatusNewMessage, MessageReducer, SendMessageCreater} from "./message-reducer";
 
 type MessagesType = {
     message: string
-    id: number
+    id: string
 }
 type DialogType = {
     name: string
-    id: number
+    id: string
 }
-type DataType = {
-    id: number
+export type DataType = {
+    id: string
     message: string
     like: number
 }
-type DataPostType = {
+export type DataPostType = {
     newPostText: string
     postData: Array<DataType>
 }
-type state1PropsType = {
+export type state1PropsType = {
     messageData: Array<MessagesType>
+    NewMessageText: string
     dialogsData: Array<DialogType>
 }
 export type RootPropsType = {
@@ -37,49 +29,46 @@ export type RootPropsType = {
     post: DataPostType
 }
 
-type AddTypeAction = {
-    type: "ADD-POST"
-}
-type NewTextAction = {
-    type: 'NEW-TEXT-VALUE-BUSINES'
-    text: string
-}
-
-export type DispatchTypes = AddTypeAction | NewTextAction
+export type DispatchTypes =
+    ReturnType<typeof addPostAC>
+    | ReturnType<typeof changePostAC>
+    | ReturnType<typeof ChangeStatusNewMessage>
+    | ReturnType<typeof SendMessageCreater>
 export type StorePropsType = {
     _state: RootPropsType
-    getState: ()=> RootPropsType
-    renderTree: ()=> void
-    _subscribe:(observer:()=>void)=> void
-    dispatch: (action: DispatchTypes )=> void
+    getState: () => RootPropsType
+    renderTree: () => void
+    _subscribe: (observer: () => void) => void
+    dispatch: (action: DispatchTypes) => void
 
 }
 export let store: StorePropsType = {
     _state: {
         sms: {
             messageData: [
-                {message: 'HI', id: 1},
-                {message: 'Good bye', id: 2},
-                {message: 'Howe are you', id: 3},
-                {message: 'WOOW', id: 4},
-                {message: 'Hallo world', id: 5}
+                {message: 'HI', id: v1()},
+                {message: 'Good bye', id: v1()},
+                {message: 'Howe are you', id: v1()},
+                {message: 'WOOW', id: v1()},
+                {message: 'Hallo world', id: v1()}
             ],
             dialogsData: [
-                {name: 'Sergik', id: 1},
-                {name: 'Olka', id: 2},
-                {name: 'Olka', id: 3},
-                {name: 'Ighor', id: 4},
-                {name: 'Olka', id: 5},
-                {name: 'Ighor', id: 6}
-            ]
+                {name: 'Sergik', id: v1()},
+                {name: 'Olka', id: v1()},
+                {name: 'Olka', id: v1()},
+                {name: 'Ighor', id: v1()},
+                {name: 'Olka', id: v1()},
+                {name: 'Ighor', id: v1()}
+            ],
+            NewMessageText: ''
         },
         post: {
             newPostText: '',
             postData: [
-                {id: 1, message: 'Hi how are you', like: 12},
-                {id: 2, message: 'Its my Life', like: 25},
-                {id: 3, message: 'Whery good', like: 266},
-                {id: 4, message: 'Its wery good', like: 2588},
+                {id: v1(), message: 'Hi how are you', like: 12},
+                {id: v1(), message: 'Its my Life', like: 25},
+                {id: v1(), message: 'Whery good', like: 266},
+                {id: v1(), message: 'Its wery good', like: 2588},
             ]
         }
 
@@ -87,35 +76,16 @@ export let store: StorePropsType = {
     getState() {
         return this._state
     },
-    renderTree () {
+    renderTree() {
         console.log('state chnged')
     },
-    _subscribe(observer){
+    _subscribe(observer) {
         this.renderTree = observer
     },
     dispatch(action) {
-        if (action.type === "ADD-POST") {
-            const newPost = {
-                id: new Date().getTime(),
-                message: this._state.post.newPostText,
-                like: 14
-            }
-            this._state.post.postData.unshift(newPost)
-            this._state.post.newPostText = ''
-            this.renderTree();
-        } else if (action.type === 'NEW-TEXT-VALUE-BUSINES') {
-                this._state.post.newPostText = action.text
-                this.renderTree();
-        }
+        this._state.post = PostReducer(this._state.post, action)
+        this._state.sms = MessageReducer(this._state.sms, action)
+        this.renderTree();
     }
 
 }
-
-
-
-
-
-
-
-
-
